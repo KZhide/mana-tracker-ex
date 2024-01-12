@@ -27,13 +27,15 @@ export const ManaRow = (props: {
 }) => {
 
   return (
-    <tr>
-      <td class="font-yusei font-semibold"><button class="w-1/4 text-center">✕</button><input value={props.name} class="w-3/4"/></td>
+    <div class="md:flex">
+      <div class="font-yusei font-semibold md:flex-1 md:w-1/6"><button class="w-1/4 text-center">✕</button><input value={props.name} class="w-3/4"/></div>
+      <div class="grid grid-cols-3 md:grid-cols-6 md:w-5/6">
       { props.manas.map((n, i) => (
-        <td class={classes[i] + " " + "p-1"}>
-          <button class={`block w-full font-semibold text-4xl ${buttonBgs[i]} text-white`} onClick={() => props.setManaTable(props.row, "manas", i, n => props.addMode ? n+1 : Math.max(n-1, 0))}>{n}</button>
-        </td>
+        <div class={classes[i] + " " + "p-1 md:flex-1 w-full"}>
+          <button class={`block w-full font-semibold text-2xl ${buttonBgs[i]} text-black`} onClick={() => props.setManaTable(props.row, "manas", i, n => props.addMode ? n+1 : Math.max(n-1, 0))}>{n}</button>
+        </div>
       )) }
-    </tr>
+      </div>
+    </div>
   )
 }

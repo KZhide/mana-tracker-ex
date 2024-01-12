@@ -54,26 +54,13 @@ function App() {
       <h1>マナカウント</h1>
       <div>
         <button onClick={() => setManaTable(manaTable.length, {name: "", manas: [0,0,0,0,0,0]})}>行追加</button>
-        <table class="table-fixed w-full">
-          <thead>
-            <tr>
-              <th>desc.</th>
-              <th class="bg-yellow-500">W</th>
-              <th class="bg-blue-500">U</th>
-              <th class="bg-gray-800">B</th>
-              <th class="bg-red-500">R</th>
-              <th class="bg-green-500">G</th>
-              <th class="bg-gray-500">C</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div>
             <For each={manaTable}>
               {(manaRow, i) => (
                 <ManaRow addMode={addMode()} name={manaRow.name} manas={manaRow.manas} row={i()} setManaTable={setManaTable} />
               )}
             </For>
-          </tbody>
-        </table>
+        </div>
 
         <button onClick={() => setManaom((manaom) => !manaom)}>マナの座、オムナス{manaom()?"✓":"✗"}</button>
         <button onClick={() => setOmniom((omniom) => !omniom)}>万物の座、オムナス{omniom()?"✓":"✗"}</button>
