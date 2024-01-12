@@ -6,7 +6,7 @@ import { ManaRow } from './ManaRow.tsx';
 function App() {
   const [addMode, setAddMode] = createSignal(true)
 
-  const [manaTable, setManaTable] = createStore<number[][]>([])
+  const [manaTable, setManaTable] = createStore<{name: string, manas: number[]}[]>([])
 
   const [manaom, setManaom] = createSignal(false)
   const [omniom, setOmniom] = createSignal(false)
@@ -14,7 +14,7 @@ function App() {
   const reset = () => {
     for(let i = 0; i < manaTable.length; i++) {
       for(let j = 0; j < 6; j++) {
-        setManaTable(i, j, 0)
+        setManaTable(i, "manas", j, 0)
       }
     }
     setManaom(false)
@@ -26,34 +26,35 @@ function App() {
       for(let j = 0; j < 6; j++) {
         if (omniom() && manaom()) {
           if (j !== 2 && j !== 4) {
-            let v = manaTable[i][j]
-            setManaTable(i, j, 0)
-            setManaTable(i, 2, n => n + v)
+            let v = manaTable[i].manas[j]
+            setManaTable(i, "manas", j, 0)
+            setManaTable(i, "manas", 2, n => n + v)
           }
         } else if (omniom()) {
           if (j !== 2) {
-            let v = manaTable[i][j]
-            setManaTable(i, j, 0)
-            setManaTable(i, 2, n => n + v)
+            let v = manaTable[i].manas[j]
+            setManaTable(i, "manas", j, 0)
+            setManaTable(i, "manas", 2, n => n + v)
           }
         } else if (manaom()) {
           if (j !== 4) {
-            setManaTable(i, j, 0)
+            setManaTable(i, "manas", j, 0)
           }
         } else {
-          setManaTable(i, j, 0)
+          setManaTable(i, "manas", j, 0)
         }
       }
     }
   }
 
-  setManaTable(0, [0,0,0,0,0,0])
+  setManaTable(0, {name: "通常", manas: [0,0,0,0,0,0]})
 
   return (
     <>
       <h1>マナカウント</h1>
       <div>
-        <table>
+        <button onClick={() => setManaTable(manaTable.length, {name: "", manas: [0,0,0,0,0,0]})}>行追加</button>
+        <table class="table-fixed w-full">
           <thead>
             <tr>
               <th>desc.</th>
@@ -67,8 +68,8 @@ function App() {
           </thead>
           <tbody>
             <For each={manaTable}>
-              {(manas, i) => (
-                <ManaRow addMode={addMode()} name="通常" manas={manas} row={i()} setManaTable={setManaTable} />
+              {(manaRow, i) => (
+                <ManaRow addMode={addMode()} name={manaRow.name} manas={manaRow.manas} row={i()} setManaTable={setManaTable} />
               )}
             </For>
           </tbody>
